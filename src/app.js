@@ -88,15 +88,15 @@ app.post('/numbers/divide', (req, res) => {
 });
 
 app.post('/numbers/remainder', (req, res) => {
-  const numberOne = Number(req.body.a);
-  const numberTwo = Number(req.body.b);
+  const numberOne = req.body.a;
+  const numberTwo = req.body.b;
   const responseObject = remainder(numberOne, numberTwo);
 
-  if (numberTwo === 0) {
-    res.status(400).send({ error: 'Unable to divide by 0.' })
+  if (numberTwo === 0 || numberTwo === '0') {
+    res.status(400).send({ error: 'Unable to divide by 0.' });
   } else if (numberOne === undefined || numberTwo === undefined) {
-    res.status(400).send({ error: 'Parameters "a" and "b" are required.' })
-  } else if (Number.isNaN(numberOne) || Number.isNaN(numberTwo)) {
+    res.status(400).send({ error: 'Parameters "a" and "b" are required.' });
+  } else if (isNaN(numberOne) === true || isNaN(numberTwo) === true) {
     res.status(400).send({ error: 'Parameters must be valid numbers.' });
   } else {
     res.status(200).json({ result: responseObject });
