@@ -12,6 +12,12 @@ const { multiply } = require('./lib/numbers');
 const { divide } = require('./lib/numbers');
 const { remainder } = require('./lib/numbers');
 const { getNthElement } = require('./lib/arrays');
+const { arrayToCSVString } = require('./lib/arrays');
+const { addToArray } = require('./lib/arrays');
+const { elementsStartingWithAVowel } = require('./lib/arrays');
+const { removeNthElement2 } = require('./lib/arrays');
+const { negate } = require('./lib/booleans');
+const { truthiness } = require('./lib/booleans');
  // app is an express application - when we call the express function, it returns to us an application that we can configure
 // The app object conventionally denotes the Express application
 
@@ -104,10 +110,54 @@ app.post('/numbers/remainder', (req, res) => {
 });
 
 app.post('/arrays/element-at-index/2', (req, res) => {
-  const index = req.body.array;
-  const responseObject = getNthElement(index, req.body.array);
+  const n = 2;
+  const responseObject = getNthElement(n, req.body.array);
   res.status(200).json({ result: responseObject });
 });
+
+app.post('/arrays/to-string', (req, res) => {
+  const responseObject = arrayToCSVString(req.body.array);
+  res.status(200).json({ result: responseObject });
+});
+
+app.post('/arrays/append', (req, res) => {
+  const element = req.body.element;
+  const myArray = req.body.array;
+  const responseObject = myArray.push(element);  /*addToArray(element, req.body.array);*/
+  res.status(200).json({ result: responseObject });
+});
+
+app.post('/arrays/starts-with-vowel', (req, res) => {
+  const responseObject = elementsStartingWithAVowel(req.body.array);
+  res.status(200).json({ result: responseObject });
+});
+
+app.post('/arrays/remove-element', (req, res) => {
+  const n = req.body.array.index;
+  const responseObject = removeNthElement2(n, req.body.array);
+  res.status(200).json({ result: responseObject });
+});
+
+app.post('/booleans/negate', (req, res) => {
+  const boolean = req.body.a;
+  const responseObject = !boolean
+  res.status(200).json({ result: !req.body.boolean });
+});
+
+app.post('/booleans/truthiness', (req, res) => {
+  const boolean = req.body.a;
+  const responseObject = truthiness(boolean);
+
+  if (boolean !== '') {
+    res.status(200).json({ result: true });
+  } else if (boolean === Number) {
+    res.status(200).json({ result: true });
+  } else {
+    res.status(200).json({ result: responseObject });
+  }
+});
+
+
 
 module.exports = app;
 

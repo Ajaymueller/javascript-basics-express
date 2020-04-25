@@ -16,7 +16,7 @@ describe('/arrays', () => {
   });
 
   describe('POST /to-string', () => {
-    xit('returns the stringified array', done => {
+    it('returns the stringified array', done => {
       request(app)
         .post('/arrays/to-string')
         .send({ array: ['cat', 'dog', 'elephant', 'fox'] })
@@ -45,7 +45,7 @@ describe('/arrays', () => {
   });
 
   describe('POST /starts-with-vowel', () => {
-    xit('returns a filtered array of elements starting with a vowel', done => {
+    it('returns a filtered array of elements starting with a vowel', done => {
       request(app)
         .post('/arrays/starts-with-vowel')
         .send({ array: ['cat', 'dog', 'elephant', 'fox'] })
