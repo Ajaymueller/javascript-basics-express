@@ -136,15 +136,22 @@ app.post('/arrays/starts-with-vowel', (req, res) => {
 });
 
 app.post('/arrays/remove-element', (req, res) => {
-  const n = 0;
-  const responseObject = removeNthElement2(n, req.body.array);
+  const index = Number(req.query.index);
+  const responseObject = index
+    ? removeNthElement2(index, req.body.array)
+    : removeNthElement2(0, req.body.array);
+
   res.status(200).json({ result: responseObject });
 });
 
 app.post('/booleans/negate', (req, res) => {
   const boolean = req.body.a;
-  const responseObject = !boolean
-  res.status(200).json({ result: !req.body.boolean });
+  const responseObject = negate(boolean);
+  if (boolean === true) {
+    res.status(200).json({ result: false });
+  } else {
+    res.status(200).json({ result: responseObject });
+  }
 });
 
 app.post('/booleans/truthiness', (req, res) => {
