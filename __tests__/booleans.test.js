@@ -27,7 +27,7 @@ describe('/booleans', () => {
   });
 
   describe('POST /truthiness', () => {
-    it('returns false when passed an empty string', done => {
+    xit('returns false when passed an empty string', done => {
       request(app)
         .post('/booleans/truthiness')
         .send({ value: '' })
@@ -38,7 +38,7 @@ describe('/booleans', () => {
         });
     });
 
-    it('returns false when passed 0', done => {
+    xit('returns false when passed 0', done => {
       request(app)
         .post('/booleans/truthiness')
         .send({ value: 0 })
@@ -49,7 +49,7 @@ describe('/booleans', () => {
         });
     });
 
-    it('returns false when passed null', done => {
+    xit('returns false when passed null', done => {
       request(app)
         .post('/booleans/truthiness')
         .send({ value: null })
@@ -60,7 +60,7 @@ describe('/booleans', () => {
         });
     });
 
-    it('returns true when passed a string', done => {
+    xit('returns true when passed a string', done => {
       request(app)
         .post('/booleans/truthiness')
         .send({ value: 'hello' })
@@ -71,7 +71,7 @@ describe('/booleans', () => {
         });
     });
 
-    it('returns true when passed a number', done => {
+    xit('returns true when passed a number', done => {
       request(app)
         .post('/booleans/truthiness')
         .send({ value: 9 })
@@ -84,7 +84,7 @@ describe('/booleans', () => {
   });
 
   describe('GET /is-odd/{number}', () => {
-    xit('returns true when passed an odd number', done => {
+    it('returns true when passed an odd number', done => {
       request(app)
         .get('/booleans/is-odd/7')
         .then(res => {
@@ -94,7 +94,7 @@ describe('/booleans', () => {
         });
     });
 
-    xit('returns false when passed an even number', done => {
+    it('returns false when passed an even number', done => {
       request(app)
         .get('/booleans/is-odd/84')
         .then(res => {
@@ -104,7 +104,7 @@ describe('/booleans', () => {
         });
     });
 
-    xit('errors when the value is not numeric', done => {
+    it('errors when the value is not numeric', done => {
       request(app)
         .get('/booleans/is-odd/bicycle')
         .then(res => {

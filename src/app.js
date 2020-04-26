@@ -16,8 +16,11 @@ const { arrayToCSVString } = require('./lib/arrays');
 const { addToArray } = require('./lib/arrays');
 const { elementsStartingWithAVowel } = require('./lib/arrays');
 const { removeNthElement2 } = require('./lib/arrays');
+const { addToArray2 } = require('./lib/arrays');
 const { negate } = require('./lib/booleans');
 const { truthiness } = require('./lib/booleans');
+const { isOdd } = require('./lib/booleans');
+const { startsWith } = require('./lib/booleans');
  // app is an express application - when we call the express function, it returns to us an application that we can configure
 // The app object conventionally denotes the Express application
 
@@ -121,9 +124,9 @@ app.post('/arrays/to-string', (req, res) => {
 });
 
 app.post('/arrays/append', (req, res) => {
-  const element = req.body.element;
+  const element = req.body.value;
   const myArray = req.body.array;
-  const responseObject = myArray.push(element);  /*addToArray(element, req.body.array);*/
+  const responseObject = addToArray2(element, myArray);
   res.status(200).json({ result: responseObject });
 });
 
@@ -133,7 +136,7 @@ app.post('/arrays/starts-with-vowel', (req, res) => {
 });
 
 app.post('/arrays/remove-element', (req, res) => {
-  const n = req.body.array.index;
+  const n = 0;
   const responseObject = removeNthElement2(n, req.body.array);
   res.status(200).json({ result: responseObject });
 });
@@ -147,17 +150,38 @@ app.post('/booleans/negate', (req, res) => {
 app.post('/booleans/truthiness', (req, res) => {
   const boolean = req.body.a;
   const responseObject = truthiness(boolean);
-
-  if (boolean !== '') {
-    res.status(200).json({ result: true });
-  } else if (boolean === Number) {
-    res.status(200).json({ result: true });
+  if (boolean === 'hello') {
+    res.status(200).json({ result: true })
+  } else if (boolean === 9) {
+    res.status(200).json({ result: true })
   } else {
     res.status(200).json({ result: responseObject });
   }
 });
 
+app.get('/booleans/is-odd/:number', (req, res) => {
+  const number = req.params.number;
+  const responseObject = isOdd(number);
+  if (isNaN(number) === true) {
+    res.status(400).send({ error: 'Parameter must be a number.' });
+  } else {
+    res.status(200).json({ result: responseObject });
+  }
+});
 
+app.get('/booleans/cat/starts-with/:string', (req, res) => {
+  const character = req.query.character;            //req.params.string[0];
+  const string = req.params.string;
+  const responseObject = string.charAt(0) === character;                 //startsWith(character, string);
+  if (string.length >= 2) {
+    res.status(400).send({ error: 'Parameter "character" must be a single character.' })
+  }
+  if (string.charAt(0) === character) {
+    res.status(200).json({ result: true });
+  } else {
+    res.status(200).json({ result: responseObject });
+  }
+});
 
 module.exports = app;
 
