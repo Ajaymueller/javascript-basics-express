@@ -145,25 +145,15 @@ app.post('/arrays/remove-element', (req, res) => {
 });
 
 app.post('/booleans/negate', (req, res) => {
-  const boolean = req.body.a;
+  const boolean = req.body.value;
   const responseObject = negate(boolean);
-  if (boolean === true) {
-    res.status(200).json({ result: false });
-  } else {
-    res.status(200).json({ result: responseObject });
-  }
+  res.status(200).json({ result: responseObject });
 });
 
 app.post('/booleans/truthiness', (req, res) => {
-  const boolean = req.body.a;
+  const boolean = req.body.value;
   const responseObject = truthiness(boolean);
-  if (boolean === 'hello') {
-    res.status(200).json({ result: true })
-  } else if (boolean === 9) {
-    res.status(200).json({ result: true })
-  } else {
-    res.status(200).json({ result: responseObject });
-  }
+  res.status(200).json({ result: responseObject });
 });
 
 app.get('/booleans/is-odd/:number', (req, res) => {
@@ -177,14 +167,11 @@ app.get('/booleans/is-odd/:number', (req, res) => {
 });
 
 app.get('/booleans/cat/starts-with/:string', (req, res) => {
-  const character = req.query.character;            //req.params.string[0];
+  const myString = 'cat';
   const string = req.params.string;
-  const responseObject = string.charAt(0) === character;                 //startsWith(character, string);
-  if (string.length >= 2) {
+  const responseObject = startsWith(string, myString);
+  if (string.length > 1) {
     res.status(400).send({ error: 'Parameter "character" must be a single character.' })
-  }
-  if (string.charAt(0) === character) {
-    res.status(200).json({ result: true });
   } else {
     res.status(200).json({ result: responseObject });
   }
