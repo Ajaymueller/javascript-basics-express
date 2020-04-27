@@ -3,26 +3,33 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
-const { sayHello } = require('./lib/strings');
-const { firstCharacters } = require('./lib/strings');
-const { firstCharacter } = require('./lib/strings');
-const { add } = require('./lib/numbers');
-const { subtract } = require('./lib/numbers');
-const { multiply } = require('./lib/numbers');
-const { divide } = require('./lib/numbers');
-const { remainder } = require('./lib/numbers');
-const { getNthElement } = require('./lib/arrays');
-const { arrayToCSVString } = require('./lib/arrays');
-const { addToArray } = require('./lib/arrays');
-const { elementsStartingWithAVowel } = require('./lib/arrays');
-const { removeNthElement2 } = require('./lib/arrays');
-const { addToArray2 } = require('./lib/arrays');
-const { negate } = require('./lib/booleans');
-const { truthiness } = require('./lib/booleans');
-const { isOdd } = require('./lib/booleans');
-const { startsWith } = require('./lib/booleans');
+const {
+  sayHello,
+  firstCharacters,
+  firstCharacter,
+  uppercase,
+  lowercase,
+} = require('./lib/strings');
+const {
+  add,
+  subtract,
+  multiply,
+  divide,
+  remainder,
+  roundToTen,
+  returnLarger,
+} = require('./lib/numbers');
+const {
+  getNthElement,
+  arrayToCSVString,
+  elementsStartingWithAVowel,
+  removeNthElement2,
+  addToArray2,
+} = require('./lib/arrays');
+const { negate, truthiness, isOdd, startsWith } = require('./lib/booleans');
  // app is an express application - when we call the express function, it returns to us an application that we can configure
 // The app object conventionally denotes the Express application
+
 
 app.get('/strings/hello/:string', (req, res) => {
   // eslint-disable-next-line prefer-destructuring
@@ -31,12 +38,16 @@ app.get('/strings/hello/:string', (req, res) => {
   res.status(200).json({ result: responseObject });
 });
 
-app.get('/strings/upper/hello', (req, res) => {
-  res.status(200).json({ result: 'HELLO' });
+app.get('/strings/upper/:string', (req, res) => {
+  const string = req.params.string;
+  const responseObject = uppercase(string);
+  res.status(200).json({ result: responseObject });
 });
 
-app.get('/strings/lower/HELLO', (req, res) => {
-  res.status(200).json({ result: 'hello' });
+app.get('/strings/lower/:string', (req, res) => {
+  const string = req.params.string;
+  const responseObject = lowercase(string);
+  res.status(200).json({ result: responseObject });
 });
 
 app.get('/strings/first-characters/:string', (req, res) => {
@@ -48,6 +59,8 @@ app.get('/strings/first-characters/:string', (req, res) => {
  
   res.status(200).json({ result: responseObject });
 });
+
+// Numbers
 
 app.get('/numbers/add/:firstNumber/and/:secondNumber', (req, res) => {
   const numberOne = Number(req.params.firstNumber);
@@ -78,6 +91,26 @@ app.post('/numbers/multiply', (req, res) => {
   if (req.body.a !== Number || req.body.b !== Number) {
     res.status(400).send({ error: 'Parameters "a" and "b" must be valid numbers.' });
   }
+});
+
+app.post('/numbers/round', (req, res) => {
+  const numberOne = Number(req.body.a);
+  const numberTwo = Number(req.body.b);
+  const responseObject = roundToTen(numberOne, numberTwo);
+  if (req.body.a === undefined || req.body.b === undefined) {
+    res.status(400).send({ error: 'Parameters "a" and "b" are required.' });
+  } else if (isNaN(numberOne) === true || isNaN(numberTwo) === true) {
+    res.status(400).send({ error: 'Parameters must be valid number.' });
+  } else {
+    res.status(200).json({ result: responseObject });
+  }
+});
+
+app.post('/numbers/larger', (req, res) => {
+  const numberOne = Number(req.body.a);
+  const numberTwo = Number(req.body.b);
+  const responseObject = returnLarger(numberOne, numberTwo);
+  res.status(200).json({ result: responseObject });
 });
 
 app.post('/numbers/divide', (req, res) => {
@@ -112,6 +145,8 @@ app.post('/numbers/remainder', (req, res) => {
   }
 });
 
+// Arrays
+
 app.post('/arrays/element-at-index/2', (req, res) => {
   const n = 2;
   const responseObject = getNthElement(n, req.body.array);
@@ -143,6 +178,8 @@ app.post('/arrays/remove-element', (req, res) => {
 
   res.status(200).json({ result: responseObject });
 });
+
+// Booleans
 
 app.post('/booleans/negate', (req, res) => {
   const boolean = req.body.value;

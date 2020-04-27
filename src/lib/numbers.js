@@ -10,6 +10,8 @@ const power = (a, b) => a ** b;
 
 const round = a => Math.round(a);
 
+const roundToTen = a => Math.round(a / 10) * 10;
+
 const roundUp = a => Math.ceil(a);
 
 const roundDown = a => Math.floor(a);
@@ -19,6 +21,8 @@ const absolute = a => Math.abs(a);
 const quotient = (a, b) => (a - (a % b)) / b;
 
 const remainder = (a, b) => a % b;
+
+const returnLarger = (a, b) => (a > b ? a : b);
 
 module.exports = {
   add,
@@ -32,4 +36,6 @@ module.exports = {
   absolute,
   quotient,
   remainder,
+  roundToTen,
+  returnLarger,
 };

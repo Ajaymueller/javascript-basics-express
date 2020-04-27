@@ -122,6 +122,62 @@ describe('/numbers', () => {
     });
   });
 
+  describe('POST /round', () => {
+    it("rounds a number to it's nearest multiple of 10", done => {
+      request(app)
+        .post('/numbers/round')
+        .send({ a: 14, b: 28 })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.body).toEqual({ result: 10 });
+          done();
+        });
+    });
+    it('rounds stingified numbers', done => {
+      request(app)
+        .post('/numbers/round')
+        .send({ a: '16', b: '76' })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.body).toEqual({ result: 20 });
+          done();
+        });
+    });
+    it('errors if the parameters are not numbers', done => {
+      request(app)
+        .post('/numbers/round')
+        .send({ a: 'peanuts', b: 'yogurt' })
+        .then(res => {
+          expect(res.status).toEqual(400);
+          expect(res.body).toEqual({ error: 'Parameters must be valid number.' });
+          done();
+        });
+    });
+    it('errors if the parameters are not defined', done => {
+      request(app)
+        .post('/numbers/round')
+        .send({ a: 'hello' })
+        .then(res => {
+          expect(res.status).toEqual(400);
+          expect(res.body).toEqual({ error: 'Parameters "a" and "b" are required.'});
+          done();
+        });
+    });
+  });
+
+  describe('POST /returnLarger', () => {
+    it('returns the bigger number', done => {
+      request(app)
+        .post('/numbers/larger')
+        .send({ a: 5, b: 10 })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.body).toEqual({ result: 10 });
+          done();
+        });
+    });
+  });
+
   describe('POST /divide', () => {
     it('divides two numbers', done => {
       request(app)
