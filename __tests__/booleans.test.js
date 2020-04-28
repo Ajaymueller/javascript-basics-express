@@ -115,6 +115,41 @@ describe('/booleans', () => {
     });
   });
 
+  describe('Squared', () => {
+    describe('POST /isSquare', () => {
+      it('returns true if number is a square number', done => {
+        request(app)
+          .post('/booleans/squared')
+          .send({ value: 36 })
+          .then(res => {
+            expect(res.status).toEqual(200);
+            expect(res.body).toEqual({ result: true });
+            done();
+          });
+      });
+      it('returns true if number is stringified', done => {
+        request(app)
+          .post('/booleans/squared')
+          .send({ value: '36' })
+          .then(res => {
+            expect(res.status).toEqual(200);
+            expect(res.body).toEqual({ result: true });
+            done();
+          });
+      });
+      it('returns an error if the paramter is not a number', done => {
+        request(app)
+          .post('/booleans/squared')
+          .send({ value: 'not number' })
+          .then(res => {
+            expect(res.status).toEqual(400);
+            expect(res.body).toEqual({ error: 'Parameter must be a number.' });
+            done();
+          });
+      });
+    });
+  });
+
   describe('GET /{string}/starts-with/{character}', () => {
     it('returns true when the string starts with the given character', done => {
       request(app)

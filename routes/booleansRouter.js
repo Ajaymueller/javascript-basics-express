@@ -11,4 +11,6 @@ router.get('/is-odd/:number', booleansController.booleans_isOdd);
 
 router.get('/cat/starts-with/:string', booleansController.booleans_startsWith);
 
+router.post('/squared', booleansController.booleans_squared);
+
 module.exports = router;

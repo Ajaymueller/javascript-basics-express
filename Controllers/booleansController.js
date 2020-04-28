@@ -1,4 +1,4 @@
-const { negate, truthiness, isOdd, startsWith } = require('../src/lib/booleans');
+const { negate, truthiness, isOdd, startsWith, isSquare } = require('../src/lib/booleans');
 
 exports.booleans_negate = (req, res) => {
   const boolean = req.body.value;
@@ -32,4 +32,12 @@ exports.booleans_startsWith = (req, res) => {
   } else {
     res.status(200).json({ result: responseObject });
   }
+};
+
+exports.booleans_squared = (req, res) => {
+  const myNumber = Number(req.body.value);
+  const responseObject = isSquare(myNumber);
+  return Number.isNaN(myNumber)
+    ? res.status(400).send({ error: 'Parameter must be a number.'})
+    : res.status(200).json({ result: responseObject });
 };
